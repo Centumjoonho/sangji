@@ -12,26 +12,41 @@ export default function ExerciseInfoLayout() {
     <>
       <Stack>
         <Stack.Screen
-            name='index'
-            options={{
-              // header : () => <Header />,
-              title : '운동 이력 조회'
-            }}
+          name='index'
+          options={{
+            // header : () => <Header />,
+            title: '운동 이력 조회'
+          }}
         />
         <Stack.Screen
-            name='add'
-            options={{
-              title : '운동 이력 추가'
-            }}
-            screenOptions={{
-              headerStyle: {
-                backgroundColor: COLORS.BLUE,
-              },
-              headerTintColor: COLORS.WHITE,
-              headerTitleStyle: {
-                fontWeight: 'bold',
-              },
-            }}
+          name='add'
+          options={{
+            title: '운동 이력 추가'
+          }}
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: COLORS.BLUE,
+            },
+            headerTintColor: COLORS.WHITE,
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+        <Stack.Screen
+          name='delete'
+          options={{
+            title: '운동 이력 삭제'
+          }}
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: COLORS.BLUE,
+            },
+            headerTintColor: COLORS.WHITE,
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
         />
       </Stack>
     </>

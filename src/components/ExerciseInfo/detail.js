@@ -14,91 +14,91 @@ import { useSession } from "../../../common/ctx";
 
 
 const styles = StyleSheet.create({
-    input : {
-        borderColor : COLORS.WHITE,
-        borderWidth : 1,
-        borderRadius : 10,
-        paddingVertical : 10,
-        paddingHorizontal : 15,
-        color : COLORS.WHITE,
-        fontSize : 16
+    input: {
+        borderColor: COLORS.WHITE,
+        borderWidth: 1,
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        color: COLORS.WHITE,
+        fontSize: 16
     },
-    text : {
-        color : COLORS.WHITE,
-        fontSize : 20,
-        marginBottom : 10,
+    text: {
+        color: COLORS.WHITE,
+        fontSize: 20,
+        marginBottom: 10,
     },
-    formContainer : {
-        marginBottom : 30
+    formContainer: {
+        marginBottom: 30
     },
-    datetimeContainer : {
-        flexDirection : 'row'
+    datetimeContainer: {
+        flexDirection: 'row'
     },
     button_container: {
-        display : 'flex',
-        alignItems : 'flex-end',
-        padding : 10
-    },  
-    button : {
-        justifyContent : 'center',
-        alignItems : 'center',
-        flexDirection : 'row',
-        backgroundColor : COLORS.LETTUCE,
-        borderRadius : 50,
-        paddingVertical : 5,
-        paddingHorizontal : 15
+        display: 'flex',
+        alignItems: 'flex-end',
+        padding: 10
     },
-    buttonText : {
-        fontSize : 22,
-        color : COLORS.WHITE,
-        marginRight : 5
+    button: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        backgroundColor: COLORS.LETTUCE,
+        borderRadius: 50,
+        paddingVertical: 5,
+        paddingHorizontal: 15
+    },
+    buttonText: {
+        fontSize: 22,
+        color: COLORS.WHITE,
+        marginRight: 5
     },
 });
 
 const FIELDS_NAME_MAPPING = {
-    'date' : '운동 일시',
-    'exercise' : '운동',
-    'repetition' : '횟수'
+    'date': '운동 일시',
+    'exercise': '운동',
+    'repetition': '횟수'
 };
 
-export const Form = ({onPressConfirm}) => {
+export const Detail = ({ onPressConfirm }) => {
     const [date, setDate] = useState(new Date());
     const [exercise, setExercise] = useState();
-    const [repetition, setRepetition] = useState(); 
-    const {session} = useSession();
+    const [repetition, setRepetition] = useState();
+    const { session } = useSession();
 
     const fieldsValidations = {
-        'date' : [notBlankValication],
-        'exercise' : [stringValidation],
-        'repetition' : [notBlankValication, integerValidation],
+        'date': [notBlankValication],
+        'exercise': [stringValidation],
+        'repetition': [notBlankValication, integerValidation],
     };
 
     const keyValueMapping = {
-        'date' : date,
-        'exercise' : exercise,
-        'repetition' : repetition
+        'date': date,
+        'exercise': exercise,
+        'repetition': repetition
     }
 
     const onChange = (event, selectedDate) => {
-      const currentDate = selectedDate;
-      setDate(currentDate);
+        const currentDate = selectedDate;
+        setDate(currentDate);
     };
-  
+
     const showMode = (currentMode) => {
-      DateTimePickerAndroid.open({
-        value: date,
-        onChange,
-        mode: currentMode,
-        is24Hour: true,
-      });
+        DateTimePickerAndroid.open({
+            value: date,
+            onChange,
+            mode: currentMode,
+            is24Hour: true,
+        });
     };
-  
+
     const showDatepicker = () => {
-      showMode('date');
+        showMode('date');
     };
-  
+
     const showTimepicker = () => {
-      showMode('time');
+        showMode('time');
     };
 
     const formValidation = () => {
@@ -107,10 +107,10 @@ export const Form = ({onPressConfirm}) => {
             const validations = fieldsValidations[k];
             const value = keyValueMapping[k];
 
-            for (let i=0; i<validations.length; i++){
+            for (let i = 0; i < validations.length; i++) {
                 const resultCode = validations[i](value);
 
-                if (resultCode != 'P'){
+                if (resultCode != 'P') {
                     // when validation is not success.
                     NormalAlert(`아래 항목에 문제가 있습니다.\n[${FIELDS_NAME_MAPPING[k]}] ${resultCode}`);
                     isPass = false;
@@ -123,12 +123,12 @@ export const Form = ({onPressConfirm}) => {
 
         return isPass;
     }
-    
+
     const addForm = async () => {
 
-        try{
+        try {
             const validationResult = formValidation();
-            
+
             if (!validationResult) return;
 
             const fd = new FormData();
@@ -137,18 +137,18 @@ export const Form = ({onPressConfirm}) => {
             fd.append('repetition', repetition);
             fd.append('username', session);
 
-            const response = await ExerciseInfoAPI.post(fd, {});  
-            
-            if (response.ok){
-                const result = await response.json();      
-                if (result.success){
+            const response = await ExerciseInfoAPI.post(fd, {});
+
+            if (response.ok) {
+                const result = await response.json();
+                if (result.success) {
                     NormalAlert("성공적으로 생성되었습니다.", onPressConfirm);
                 }
             } else {
                 NormalAlert("서버에 문제가 발생했습니다.")
             }
 
-        }catch (err){
+        } catch (err) {
             console.log(err);
         }
     }
@@ -159,7 +159,7 @@ export const Form = ({onPressConfirm}) => {
                 <Text style={styles.text}>운동 <RequireAsterisk /></Text>
                 <Picker
                     style={{
-                        color : COLORS.WHITE,
+                        color: COLORS.WHITE,
                     }}
                     dropdownIconColor={COLORS.WHITE}
                     selectedValue={exercise}
@@ -175,11 +175,11 @@ export const Form = ({onPressConfirm}) => {
             <View style={styles.formContainer}>
                 <Text style={styles.text}>운동 일시 <RequireAsterisk /></Text>
                 <View style={styles.datetimeContainer}>
-                    <Text 
-                        style={[styles.text, {marginRight : 5}]} 
+                    <Text
+                        style={[styles.text, { marginRight: 5 }]}
                         onPress={showDatepicker}>{datatimeToISOString(date, 'date')}</Text>
-                    <Text 
-                        style={styles.text} 
+                    <Text
+                        style={styles.text}
                         onPress={showTimepicker}>{datatimeToISOString(date, 'time')}</Text>
                 </View>
             </View>
@@ -187,7 +187,7 @@ export const Form = ({onPressConfirm}) => {
                 <Text style={styles.text}>횟수 <RequireAsterisk /></Text>
                 <TextInput
                     placeholder={"운동 횟수"}
-                    placeholderTextColor={COLORS.WHITE} 
+                    placeholderTextColor={COLORS.WHITE}
                     onChangeText={(value) => setRepetition(value)}
                     value={repetition}
                     keyboardType={"number-pad"}
