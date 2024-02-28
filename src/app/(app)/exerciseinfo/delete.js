@@ -4,6 +4,9 @@ import { ScrollView, StyleSheet, Text } from 'react-native';
 import { Detail } from '../../../components/ExerciseInfo/detail';
 import { COLORS } from '../../../../common/styles/color';
 
+
+
+
 const styles = StyleSheet.create({
     container: {
         padding: 20,
@@ -12,9 +15,8 @@ const styles = StyleSheet.create({
 });
 
 export default function DeleteScreen() {
-    const route = useRoute();
 
-    console.log(route)
+
     const onPressConfirm = () => {
         if (router.canGoBack) {
             router.back();

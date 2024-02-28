@@ -13,6 +13,7 @@ import { NormalAlert } from "../Alert/Alert";
 import { useSession } from "../../../common/ctx";
 
 
+
 const styles = StyleSheet.create({
     input: {
         borderColor: COLORS.WHITE,
@@ -44,6 +45,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         backgroundColor: COLORS.LETTUCE,
+        borderRadius: 50,
+        paddingVertical: 5,
+        paddingHorizontal: 15
+    },
+    button_delete: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        backgroundColor: '#F88379',
         borderRadius: 50,
         paddingVertical: 5,
         paddingHorizontal: 15
@@ -156,20 +166,18 @@ export const Detail = ({ onPressConfirm }) => {
     return (
         <>
             <View style={styles.formContainer}>
-                <Text style={styles.text}>운동 <RequireAsterisk /></Text>
+                <Text style={styles.text}>운동 내역 <RequireAsterisk /></Text>
                 <Picker
-                    style={{
-                        color: COLORS.WHITE,
-                    }}
+                    style={{ color: 'white' }}
                     dropdownIconColor={COLORS.WHITE}
                     selectedValue={exercise}
                     onValueChange={(itemValue, itemIndex) =>
                         setExercise(itemValue)
                     }>
-                    <Picker.Item label="랫 풀 다운" value="latpulldown" />
-                    <Picker.Item label="비하인드 넥 풀 다운" value="blatpulldown" />
-                    <Picker.Item label="시티드 로우" value="seatedrow" />
-                    <Picker.Item label="체스트 프레스 " value="chestpress" />
+                    <Picker.Item style={{ color: 'white' }} label="랫 풀 다운" value="latpulldown" />
+                    <Picker.Item style={{ color: 'white' }} label="비하인드 넥 풀 다운" value="blatpulldown" />
+                    <Picker.Item style={{ color: 'white' }} label="시티드 로우" value="seatedrow" />
+                    <Picker.Item style={{ color: 'white' }} label="체스트 프레스 " value="chestpress" />
                 </Picker>
             </View>
             <View style={styles.formContainer}>
@@ -193,12 +201,22 @@ export const Detail = ({ onPressConfirm }) => {
                     keyboardType={"number-pad"}
                     style={styles.input} />
             </View>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={addForm}
-            >
-                <Text style={styles.buttonText}>추가하기</Text>
-            </TouchableOpacity>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={addForm}
+                >
+                    <Text style={styles.buttonText}>수정하기</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.button_delete}
+                    onPress={addForm}
+                >
+                    <Text style={styles.buttonText}>삭제하기</Text>
+                </TouchableOpacity>
+            </View>
         </>
     )
 }

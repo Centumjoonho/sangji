@@ -2,7 +2,9 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { COLORS } from "../../../common/styles/color";
 import { Badge } from "../Badge";
 import { Link, router } from "expo-router";
-import { useNavigation } from '@react-navigation/native';
+
+
+
 
 const styles = StyleSheet.create({
     container: {
@@ -35,13 +37,12 @@ const styles = StyleSheet.create({
 });
 
 export const Items = ({ item }) => {
-    const navigation = useNavigation();
+
     const onPressD = () => {
 
-        // router.push('/exerciseinfo/delete', {
-        //     item: item
-        // });
-        navigation.navigate('DeleteScreen', { item: item });
+        router.push('/exerciseinfo/delete', { id: 123, name: 'John' });
+
+
 
     }
     return (

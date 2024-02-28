@@ -6,6 +6,7 @@ import { Stack, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar'
 import { Header } from '../../../components/ExerciseInfo/header';
 import { COLORS } from '../../../../common/styles/color';
+import { DetailsScreen } from '../../(app)/exerciseinfo/delete';
 
 export default function ExerciseInfoLayout() {
   return (
@@ -38,6 +39,7 @@ export default function ExerciseInfoLayout() {
           options={{
             title: '운동 이력 삭제'
           }}
+
           screenOptions={{
             headerStyle: {
               backgroundColor: COLORS.BLUE,
