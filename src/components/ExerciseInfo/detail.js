@@ -176,6 +176,26 @@ export const Detail = ({ params, onPressConfirm }) => {
         }
     }
 
+    const DeleteForm = async () => {
+
+        try {
+            const response = await ExerciseInfoAPI.delete(id, {});
+            console.log(response.ok);
+            if (response.ok) {
+                const result = await response.json();
+                if (result.success) {
+                    NormalAlert("성공적으로 삭제되었습니다.", onPressConfirm);
+                }
+            } else {
+                NormalAlert("서버에 문제가 발생했습니다.")
+            }
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
     return (
         <>
             <View style={styles.formContainer}>
@@ -225,7 +245,7 @@ export const Detail = ({ params, onPressConfirm }) => {
 
                 <TouchableOpacity
                     style={styles.button_delete}
-                    onPress={DetailForm}
+                    onPress={DeleteForm}
                 >
                     <Text style={styles.buttonText}>삭제하기</Text>
                 </TouchableOpacity>
