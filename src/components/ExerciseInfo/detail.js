@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: COLORS.LETTUCE,
         borderRadius: 50,
-        paddingVertical: 5,
-        paddingHorizontal: 15
+        paddingVertical: 15,
+        paddingHorizontal: 25
     },
     button_delete: {
         justifyContent: 'center',
@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#F88379',
         borderRadius: 50,
-        paddingVertical: 5,
-        paddingHorizontal: 15
+        paddingVertical: 15,
+        paddingHorizontal: 25
     },
     buttonText: {
         fontSize: 22,
@@ -71,10 +71,21 @@ const FIELDS_NAME_MAPPING = {
     'repetition': '횟수'
 };
 
-export const Detail = ({ onPressConfirm }) => {
-    const [date, setDate] = useState(new Date());
-    const [exercise, setExercise] = useState();
-    const [repetition, setRepetition] = useState();
+export const Detail = ({ params, onPressConfirm }) => {
+
+    /////////////////////////////////////////////////////////
+    //파라메터 정리 
+    console.log(params.id)
+    const str = params.exercise_type;
+    const exercise_parts = str.split("|");
+    const exerciseType = exercise_parts[0]; // 첫 번째 요소는 운동 타입
+    const count = exercise_parts[1]; // 두 번째 요소는 반복 횟수
+    const intCount = count.replace("회", "");
+    ////////////////////////////////////////////////////////
+    const [id, setId] = useState(params.id);
+    const [date, setDate] = useState(new Date(params.datetime_str));
+    const [exercise, setExercise] = useState(exerciseType);
+    const [repetition, setRepetition] = useState(intCount);
     const { session } = useSession();
 
     const fieldsValidations = {
@@ -134,7 +145,7 @@ export const Detail = ({ onPressConfirm }) => {
         return isPass;
     }
 
-    const addForm = async () => {
+    const DetailForm = async () => {
 
         try {
             const validationResult = formValidation();
@@ -142,17 +153,19 @@ export const Detail = ({ onPressConfirm }) => {
             if (!validationResult) return;
 
             const fd = new FormData();
+            // api 전달 파라메터에 id 값 추가 
+            fd.append('id', id);
             fd.append('date', datatimeToISOString(date));
             fd.append('exercise', exercise);
             fd.append('repetition', repetition);
             fd.append('username', session);
-
+            // 작동 api  
             const response = await ExerciseInfoAPI.post(fd, {});
 
             if (response.ok) {
                 const result = await response.json();
                 if (result.success) {
-                    NormalAlert("성공적으로 생성되었습니다.", onPressConfirm);
+                    NormalAlert("성공적으로 수정되었습니다.", onPressConfirm);
                 }
             } else {
                 NormalAlert("서버에 문제가 발생했습니다.")
@@ -174,10 +187,10 @@ export const Detail = ({ onPressConfirm }) => {
                     onValueChange={(itemValue, itemIndex) =>
                         setExercise(itemValue)
                     }>
-                    <Picker.Item style={{ color: 'white' }} label="랫 풀 다운" value="latpulldown" />
-                    <Picker.Item style={{ color: 'white' }} label="비하인드 넥 풀 다운" value="blatpulldown" />
-                    <Picker.Item style={{ color: 'white' }} label="시티드 로우" value="seatedrow" />
-                    <Picker.Item style={{ color: 'white' }} label="체스트 프레스 " value="chestpress" />
+                    <Picker.Item label="랫 풀 다운" value="latpulldown" />
+                    <Picker.Item label="비하인드 넥 풀 다운" value="blatpulldown" />
+                    <Picker.Item label="시티드 로우" value="seatedrow" />
+                    <Picker.Item label="체스트 프레스 " value="chestpress" />
                 </Picker>
             </View>
             <View style={styles.formContainer}>
@@ -205,14 +218,14 @@ export const Detail = ({ onPressConfirm }) => {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={addForm}
+                    onPress={DetailForm}
                 >
                     <Text style={styles.buttonText}>수정하기</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     style={styles.button_delete}
-                    onPress={addForm}
+                    onPress={DetailForm}
                 >
                     <Text style={styles.buttonText}>삭제하기</Text>
                 </TouchableOpacity>

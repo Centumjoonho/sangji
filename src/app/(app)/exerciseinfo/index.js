@@ -31,15 +31,6 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 10
     },
-    button_delete: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-        backgroundColor: '#F88379',
-        borderRadius: 50,
-        paddingVertical: 5,
-        paddingHorizontal: 10
-    },
     buttonText: {
         fontSize: 16,
         color: COLORS.WHITE,
@@ -53,13 +44,14 @@ export default function HomeScreen() {
     const { data, isLoading, error, refetch } = useDataFetcher(`${config.HOST}/api/musclefunctionlog?username=${session}`);
     let mappedDataId = null;
 
+    console.log(data)
     //// 데이터가 다 받아졌을 때만 매핑 
     //// 데이터 값에 고유값 부여 
     if (!isLoading && data) {
         mappedDataId = data.result.map((item, index) => {
             return {
                 ...item,
-                id: index + 1
+                number: index + 1
             }
         });
 
@@ -68,13 +60,14 @@ export default function HomeScreen() {
 
     const renderItem = ({ index, item }) => {
 
-        //console.log(item);
+
 
         return (
             <TouchableOpacity >
                 <Items
                     item={item}
                 />
+
             </TouchableOpacity>
 
         )
@@ -103,6 +96,7 @@ export default function HomeScreen() {
                     <Text style={styles.buttonText}>운동 이력 추가</Text>
                     <Ionicons name="add-circle-outline" size={24} color="white" />
                 </TouchableOpacity>
+
                 {/* <TouchableOpacity
                     style={styles.button_delete}
                     onPress={onPressD}
@@ -121,6 +115,7 @@ export default function HomeScreen() {
                 onRefresh={onRefresh}
                 refreshing={refreshing}
             />
+
         </View>
     )
 };
